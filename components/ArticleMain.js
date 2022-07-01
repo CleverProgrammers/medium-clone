@@ -11,7 +11,8 @@ import Author from '../static/author.jpg'
 import Thumbnail from '../static/thumbnail.webp'
 
 const styles = {
-  wrapper: `h-screen overflow-scroll flex-[3] border-l border-r p-[2rem]`,
+  wrapper: `flex items-center justify-center flex-[3] border-l border-r `,
+  content: `h-screen overflow-scroll p-[2rem]`,
   referencesContainer: `flex justify-between items-center mt-[2.2rem] mb-[1.2rem]`,
   authorContainer: `flex gap-[1rem]`,
   authorProfileImageContainer: `h-[3rem] w-[3rem] grid center rounded-full overflow-hidden`,
@@ -28,50 +29,77 @@ const styles = {
   articleText: `font-mediumSerif text-[1.4rem] text-[#292929]`,
 }
 
-const ArticleMain = ({ post }) => {
+const ArticleMain = ({ post, author }) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.referencesContainer}>
-        <div className={styles.authorContainer}>
-          <div className={styles.authorProfileImageContainer}>
-            <Image className={styles.image} src={Author} alt='author' />
-          </div>
-          <div className={styles.column}>
-            <div>{post.author.name}</div>
-            <div className={styles.postDetails}>
-              <span>
-                {post.postedOn} • {post.postLength} min read •
-              </span>
-              <span className={styles.listenButton}>
-                <AiFillPlayCircle /> Listen
-              </span>
+      <div className={styles.content}>
+        {post.length > 0 && author.length > 0 ? (
+          <>
+            <div className={styles.referencesContainer}>
+              <div className={styles.authorContainer}>
+                <div className={styles.authorProfileImageContainer}>
+                  <Image
+                    className={styles.image}
+                    src={author[0].data.imgUrl}
+                    alt='author'
+                    width={100}
+                    height={100}
+                  />
+                </div>
+                <div className={styles.column}>
+                  <div>{author[0].data?.name}</div>
+                  <div className={styles.postDetails}>
+                    <span>
+                      {new Date(post[0].data?.postedOn).toLocaleString(
+                        'en-US',
+                        {
+                          day: 'numeric',
+                          month: 'short',
+                        },
+                      )}{' '}
+                      • {post[0].data?.postLength} min read •
+                    </span>
+                    <span className={styles.listenButton}>
+                      <AiFillPlayCircle /> Listen
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.socials}>
+                <IoLogoTwitter />
+                <FaFacebook />
+                <GrLinkedin />
+                <HiOutlineLink />
+                <div className={styles.space} />
+                <BiBookmarks />
+                <FiMoreHorizontal />
+              </div>
             </div>
-          </div>
-        </div>
-        <div className={styles.socials}>
-          <IoLogoTwitter />
-          <FaFacebook />
-          <GrLinkedin />
-          <HiOutlineLink />
-          <div className={styles.space} />
-          <BiBookmarks />
-          <FiMoreHorizontal />
-        </div>
+            <div className={styles.articleMainContainer}>
+              <div className={styles.bannerContainer}>
+                <Image className={styles.image} src={Thumbnail} alt='banner' />
+              </div>
+              <h1 className={styles.title}>{post[0].data?.title}</h1>
+              <h4 className={styles.subtitle}>
+                <div>
+                  {author[0].data?.name},{' '}
+                  {new Date(post[0].data?.postedOn).toLocaleString('en-US', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                  })}
+                </div>
+                <div>{post[0].data?.brief}</div>
+              </h4>
+              <div className={styles.articleText}>{post[0].data?.body}</div>
+              <div className={styles.articleText}>{articleText}</div>
+            </div>
+            <div>reactions</div>
+          </>
+        ) : (
+          <div>Loading...</div>
+        )}
       </div>
-      <div className={styles.articleMainContainer}>
-        <div className={styles.bannerContainer}>
-          <Image className={styles.image} src={Thumbnail} alt='banner' />
-        </div>
-        <h1 className={styles.title}>{post.title}</h1>
-        <h4 className={styles.subtitle}>
-          <div>
-            {post.author.name}, {post.postedOn}
-          </div>
-          <div>{post.description}</div>
-        </h4>
-        <div className={styles.articleText}>{articleText}</div>
-      </div>
-      <div>reactions</div>
     </div>
   )
 }
@@ -94,7 +122,6 @@ const articleText = ` Lorem ipsum dolor sit amet consectetur adipisicing elit. E
           deserunt provident voluptatem facilis eveniet esse, eos at, tempora
           quia delectus non explicabo aliquam dolorem suscipit. Debitis,
 
-
           laudantium tempore.Lorem ipsum dolor sit amet consectetur adipisicing
           elit. Ex atque hic iste quod recusandae quaerat laboriosam dicta
           veniam omnis natus adipisci voluptates suscipit et, totam ullam quis
@@ -116,7 +143,6 @@ const articleText = ` Lorem ipsum dolor sit amet consectetur adipisicing elit. E
           t. Ex atque hic iste quod recusandae quaerat laboriosam dicta
           veniam omnis natus adipisci voluptates suscipit et, totam ullam quis
           enim molestiae assumenda. Lorem ipsum dolor sit amet, consectetur
-
 
           adipisicing elit. Sed magnam recusandae deserunt provident voluptatem
           facilis eveniet esse, eos at, tempora quia delectus non explicabo

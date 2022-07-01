@@ -1,11 +1,14 @@
 import Image from 'next/image'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../firebase'
 import { FiBookmark } from 'react-icons/fi'
 
 import Thumbnail from '../static/thumbnail.webp'
-import Author from '../static/author.jpg'
 
 const styles = {
-  wrapper: `max-w-[46rem] h-[10rem] flex items-center gap-[1rem]`,
+  wrapper: `max-w-[46rem] h-[10rem] flex items-center gap-[1rem] cursor-pointer`,
   postDetails: `flex-[2.5] flex flex-col`,
   authorContainer: `flex gap-[.4rem]`,
   authorName: `font-semibold`,
@@ -21,31 +24,55 @@ const styles = {
 }
 
 const PostCard = ({ post }) => {
+  const [authorData, setAuthorData] = useState(null)
+
+  useEffect(() => {
+    ;(async () => {
+      setAuthorData(
+        await (await getDoc(doc(db, 'users', post.data.author))).data(),
+      )
+    })()
+  }, [post])
+
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.postDetails}>
-        <div className={styles.authorContainer}>
-          <div className={styles.authorImageContainer}>
-            <Image src={Author} alt='author' className={styles.authorImage} />
+    <Link href={`/post/${post.id}`}>
+      <div className={styles.wrapper}>
+        <div className={styles.postDetails}>
+          <div className={styles.authorContainer}>
+            <div className={styles.authorImageContainer}>
+              {authorData && (
+                <Image
+                  src={authorData.imgUrl}
+                  alt='author'
+                  className={styles.authorImage}
+                  height={40}
+                  width={40}
+                />
+              )}
+            </div>
+            <div className={styles.authorName}>{authorData?.name}</div>
           </div>
-          <div className={styles.authorName}>{post.author.name}</div>
+          <h1 className={styles.title}>{post.data.title}</h1>
+          <div className={styles.briefing}>{post.data.brief}</div>
+          <div className={styles.detailsContainer}>
+            <span className={styles.articleDetails}>
+              {new Date(post.data.postedOn).toLocaleString('en-US', {
+                day: 'numeric',
+                month: 'short',
+              })}
+              • {post.data.postLength} min read •{' '}
+              <span className={styles.category}>{post.data.category}</span>
+            </span>
+            <span className={styles.bookmarkContainer}>
+              <FiBookmark className='h-5 w-5' />
+            </span>
+          </div>
         </div>
-        <h1 className={styles.title}>{post.title}</h1>
-        <div className={styles.briefing}>{post.description}</div>
-        <div className={styles.detailsContainer}>
-          <span className={styles.articleDetails}>
-            {post.postedOn} • {post.postLength} min read •{' '}
-            <span className={styles.category}>{post.category}</span>
-          </span>
-          <span className={styles.bookmarkContainer}>
-            <FiBookmark className='h-5 w-5' />
-          </span>
+        <div className={styles.thumbnailContainer}>
+          <Image src={Thumbnail} alt='thumbnail' />
         </div>
       </div>
-      <div className={styles.thumbnailContainer}>
-        <Image src={Thumbnail} alt='thumbnail' />
-      </div>
-    </div>
+    </Link>
   )
 }
 
