@@ -40,7 +40,7 @@ const ArticleMain = ({ post, author }) => {
                 <div className={styles.authorProfileImageContainer}>
                   <Image
                     className={styles.image}
-                    src={author[0].data.imgUrl}
+                    src={`https://res.cloudinary.com/demo/image/fetch/${author[0].data.imageUrl}`}
                     alt='author'
                     width={100}
                     height={100}
@@ -77,7 +77,13 @@ const ArticleMain = ({ post, author }) => {
             </div>
             <div className={styles.articleMainContainer}>
               <div className={styles.bannerContainer}>
-                <Image className={styles.image} src={Thumbnail} alt='banner' />
+                <Image
+                  className={styles.image}
+                  src={`https://res.cloudinary.com/demo/image/fetch/${post[0].data.bannerImage}`}
+                  alt='banner'
+                  height={100}
+                  width={100}
+                />
               </div>
               <h1 className={styles.title}>{post[0].data?.title}</h1>
               <h4 className={styles.subtitle}>
@@ -92,9 +98,7 @@ const ArticleMain = ({ post, author }) => {
                 <div>{post[0].data?.brief}</div>
               </h4>
               <div className={styles.articleText}>{post[0].data?.body}</div>
-              <div className={styles.articleText}>{articleText}</div>
             </div>
-            <div>reactions</div>
           </>
         ) : (
           <div>Loading...</div>
@@ -105,54 +109,3 @@ const ArticleMain = ({ post, author }) => {
 }
 
 export default ArticleMain
-
-const articleText = ` Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex atque hic
-          iste quod recusandae quaerat laboriosam dicta veniam omnis natus
-          adipisci voluptates suscipit et, totam ullam quis enim molestiae
-          assumenda. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Sed magnam recusandae deserunt provident voluptatem facilis eveniet
-
-          esse, eos at, tempora quia delectus non explicabo aliquam dolorem
-          suscipit. Debitis, laudantium tempore. Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Ex atque hic iste quod recusandae
-
-          quaerat laboriosam dicta veniam omnis natus adipisci voluptates
-          suscipit et, totam ullam quis enim molestiae assumenda. Lorem ipsum
-          dolor sit amet, consectetur adipisicing elit. Sed magnam recusandae
-          deserunt provident voluptatem facilis eveniet esse, eos at, tempora
-          quia delectus non explicabo aliquam dolorem suscipit. Debitis,
-
-          laudantium tempore.Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Ex atque hic iste quod recusandae quaerat laboriosam dicta
-          veniam omnis natus adipisci voluptates suscipit et, totam ullam quis
-          enim molestiae assumenda. Lorem ipsum dolor sit amet, consectetur
-          adipisicing elit. Sed magnam recusandae deserunt provident voluptatem
-          facilis eveniet esse, eos at, tempora quia delectus non explicabo
-          aliquam dolorem suscipit.
-
-          Debitis, laudantium tempore.Lorem ipsum
-          dolor sit amet consectetur adipisicing elit. Ex atque hic iste quod
-          recusandae quaerat laboriosam dicta veniam omnis natus adipisci
-          voluptates suscipit et, totam ullam quis enim molestiae assumenda.
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed magnam
-          recusandae deserunt provident voluptatem facilis eveniet esse, eos at,
-          tempora quia delectus non explicabo aliquam dolorem suscipit. Debitis,
-          laudantium tempore.Lorem ipsum dolor sit amet consectetur adipisicing
-          eli
-
-          t. Ex atque hic iste quod recusandae quaerat laboriosam dicta
-          veniam omnis natus adipisci voluptates suscipit et, totam ullam quis
-          enim molestiae assumenda. Lorem ipsum dolor sit amet, consectetur
-
-          adipisicing elit. Sed magnam recusandae deserunt provident voluptatem
-          facilis eveniet esse, eos at, tempora quia delectus non explicabo
-
-          aliquam dolorem suscipit. Debitis, laudantium tempore. Lorem ipsum
-          dolor sit amet consectetur adipisicing elit. Ex atque hic iste quod
-          recusandae quaerat laboriosam dicta veniam omnis natus adipisci
-          voluptates suscipit et, totam ullam quis enim molestiae assumenda.
-
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed magnam
-          recusandae deserunt provident voluptatem facilis eveniet esse, eos at,
-          tempora quia delectus non explicabo aliquam dolorem suscipit. Debitis,
-          laudantium tempore.`

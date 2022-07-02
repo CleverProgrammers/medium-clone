@@ -5,8 +5,6 @@ import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import { FiBookmark } from 'react-icons/fi'
 
-import Thumbnail from '../static/thumbnail.webp'
-
 const styles = {
   wrapper: `max-w-[46rem] h-[10rem] flex items-center gap-[1rem] cursor-pointer`,
   postDetails: `flex-[2.5] flex flex-col`,
@@ -42,7 +40,7 @@ const PostCard = ({ post }) => {
             <div className={styles.authorImageContainer}>
               {authorData && (
                 <Image
-                  src={authorData.imgUrl}
+                  src={`https://res.cloudinary.com/demo/image/fetch/${authorData.imageUrl}`}
                   alt='author'
                   className={styles.authorImage}
                   height={40}
@@ -69,7 +67,12 @@ const PostCard = ({ post }) => {
           </div>
         </div>
         <div className={styles.thumbnailContainer}>
-          <Image src={Thumbnail} alt='thumbnail' />
+          <Image
+            src={`https://res.cloudinary.com/demo/image/fetch/${post.data.bannerImage}`}
+            alt='thumbnail'
+            height={100}
+            width={100}
+          />
         </div>
       </div>
     </Link>

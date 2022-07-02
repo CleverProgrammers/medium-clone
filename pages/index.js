@@ -1,41 +1,22 @@
 import Head from 'next/head'
-import Link from 'next/link'
-import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../firebase'
+import { useContext } from 'react'
+import { MediumContext } from '../context/MediumContext'
 import Header from '../components/Header'
 import Banner from '../components/Banner'
 import PostCard from '../components/PostCard'
-import { useEffect, useState } from 'react'
+
+const styles = {
+  wrapper: `mx-auto`,
+  main: `flex justify-center`,
+  container: `max-w-7xl flex-1`,
+  postsList: `flex flex-col gap-3 p-2 sm:grid-cols-2 md:gap-6 md:p-6 lg:grid-cols-3`,
+}
 
 export default function Home() {
-  const [posts, setPosts] = useState([])
-
-  useEffect(() => {
-    ;(async () => {
-      const querySnapshot = await getDocs(collection(db, 'articles'))
-
-      setPosts(
-        querySnapshot.docs.map(doc => {
-          return {
-            id: doc.id,
-            data: {
-              body: doc.data().body,
-              brief: doc.data().brief,
-              category: doc.data().category,
-              postLength: doc.data().postLength,
-              title: doc.data().title,
-              comments: doc.data().comments,
-              postedOn: doc.data().postedOn.toDate(),
-              author: doc.data().author,
-            },
-          }
-        }),
-      )
-    })()
-  }, [])
+  const { allPosts } = useContext(MediumContext)
 
   return (
-    <div className='mx-auto'>
+    <div className={styles.wrapper}>
       <Head>
         <title>Medium | Clever Programmer</title>
         <link rel='icon' href='/favicon.ico' />
@@ -43,10 +24,10 @@ export default function Home() {
       <Header />
       <main>
         <Banner />
-        <div className='flex justify-center'>
-          <div className='max-w-7xl flex-1'>
-            <div className='flex flex-col gap-3 p-2 sm:grid-cols-2 md:gap-6 md:p-6 lg:grid-cols-3'>
-              {posts?.map(post => (
+        <div className={styles.main}>
+          <div className={styles.container}>
+            <div className={styles.postsList}>
+              {allPosts.map(post => (
                 <PostCard post={post} key={post.id} />
               ))}
             </div>

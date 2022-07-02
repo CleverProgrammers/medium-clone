@@ -53,7 +53,7 @@ const Recommendations = ({ author }) => {
           <div className={styles.authorContainer}>
             <div className={styles.authorProfileImageContainer}>
               <Image
-                src={author[0].data.imgUrl}
+                src={`https://res.cloudinary.com/demo/image/fetch/${author[0].data.imageUrl}`}
                 alt='author'
                 width={100}
                 height={100}
@@ -86,7 +86,12 @@ const Recommendations = ({ author }) => {
                         styles.recommendationAuthorProfileImageContainer
                       }
                     >
-                      <Image src={post.author.image} alt='author' />
+                      <Image
+                        src={post.author.image}
+                        alt='author'
+                        height={100}
+                        width={100}
+                      />
                     </div>
                     <div className={styles.recommendationAuthorName}>
                       {post.author.name}
@@ -99,6 +104,8 @@ const Recommendations = ({ author }) => {
                     className={styles.recommendationThumbnail}
                     src={post.image}
                     alt='thumbnail'
+                    height={100}
+                    width={100}
                   />
                 </div>
               </div>

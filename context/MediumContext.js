@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from 'react'
 import { signInWithPopup } from 'firebase/auth'
 import { auth, provider } from '../firebase'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, setDoc, doc } from 'firebase/firestore'
 import { db } from '../firebase'
 
 export const MediumContext = createContext()
@@ -41,6 +41,7 @@ export const MediumProvider = ({ children }) => {
               brief: doc.data().brief,
               category: doc.data().category,
               postLength: doc.data().postLength,
+              bannerImage: doc.data().bannerImage,
               title: doc.data().title,
               comments: doc.data().comments,
               postedOn: doc.data().postedOn.toDate(),
@@ -52,12 +53,22 @@ export const MediumProvider = ({ children }) => {
     })()
   }, [])
 
+  const saveUser = async user => {
+    await setDoc(doc(db, 'users', user.email), {
+      email: user.email,
+      name: user.displayName,
+      imageUrl: user.photoURL,
+      followerCount: 0,
+    })
+  }
+
   const handleUserAuth = async () => {
     signInWithPopup(auth, provider)
       .then(result => {
         const user = result.user
 
         setUser(user)
+        saveUser(user)
       })
       .catch(error => {
         console.error(error.message)
