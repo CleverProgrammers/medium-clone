@@ -1,4 +1,6 @@
 import Image from 'next/image'
+import { useContext } from 'react'
+import { MediumContext } from '../context/MediumContext'
 import Logo from './../static/banner.png'
 
 const styles = {
@@ -8,6 +10,8 @@ const styles = {
 }
 
 const Banner = () => {
+  const { user, handleUserAuth } = useContext(MediumContext)
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
@@ -18,10 +22,15 @@ const Banner = () => {
           <h3 className='text-2xl'>
             Discover stories, thinking, and expertise from writers on any topic.
           </h3>
-
-          <button className={styles.accentedButton}>
-            Get unlimited access
-          </button>
+          {user ? (
+            <button className={styles.accentedButton}>
+              Get unlimited access
+            </button>
+          ) : (
+            <button onClick={handleUserAuth} className={styles.accentedButton}>
+              Start Reading
+            </button>
+          )}
         </div>
 
         <Image
@@ -29,7 +38,7 @@ const Banner = () => {
           src={Logo.src}
           height={400}
           width={500}
-          alt='m'
+          alt='logo'
         />
       </div>
     </div>

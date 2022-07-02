@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useContext, useState } from 'react'
+import { MediumContext } from '../context/MediumContext'
 import UploadModal from './UploadModal'
 import Logo from '../static/logo.png'
 import Modal from 'react-modal'
@@ -33,7 +35,9 @@ const styles = {
 }
 
 const Header = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const router = useRouter()
+  const { user, handleUserAuth } = useContext(MediumContext)
 
   return (
     <div className={styles.wrapper}>
@@ -50,9 +54,24 @@ const Header = () => {
         <div className={styles.bannerNav}>
           <div>Our Story</div>
           <div>Membership</div>
-          <Link href={'/?addNew=1'}>
-            <div className={styles.accentedButton}>Write</div>
-          </Link>
+          {/* USER */}
+          {user ? (
+            <>
+              <Link href={'/?addNew=1'}>
+                <div className={styles.accentedButton}>Write</div>
+              </Link>
+              <div className={styles.accentedButton}>
+                <div>Get unlimited access</div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div onClick={handleUserAuth}>Sign In</div>
+              <div onClick={handleUserAuth} className={styles.accentedButton}>
+                <div>Get Started</div>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <Modal
