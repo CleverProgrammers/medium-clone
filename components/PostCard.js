@@ -25,11 +25,13 @@ const PostCard = ({ post }) => {
   const [authorData, setAuthorData] = useState(null)
 
   useEffect(() => {
-    ;(async () => {
+    const getAuthorData = async () => {
       setAuthorData(
         await (await getDoc(doc(db, 'users', post.data.author))).data(),
       )
-    })()
+    }
+
+    getAuthorData()
   }, [post])
 
   return (

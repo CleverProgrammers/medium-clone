@@ -12,7 +12,7 @@ export const MediumProvider = ({ children }) => {
   const [allPosts, setAllPosts] = useState([])
 
   useEffect(() => {
-    ;(async () => {
+    const getAllUsers = async () => {
       const querySnapshot = await getDocs(collection(db, 'users'))
 
       setAllUsers(
@@ -25,11 +25,13 @@ export const MediumProvider = ({ children }) => {
           }
         }),
       )
-    })()
+    }
+
+    getAllUsers()
   }, [user])
 
   useEffect(() => {
-    ;(async () => {
+    const getAllPosts = async () => {
       const querySnapshot = await getDocs(collection(db, 'articles'))
 
       setAllPosts(
@@ -50,35 +52,13 @@ export const MediumProvider = ({ children }) => {
           }
         }),
       )
-    })()
+    }
+
+    getAllPosts()
   }, [])
 
-  const saveUser = async user => {
-    await setDoc(doc(db, 'users', user.email), {
-      email: user.email,
-      name: user.displayName,
-      imageUrl: user.photoURL,
-      followerCount: 0,
-    })
-  }
-
-  const handleUserAuth = async () => {
-    signInWithPopup(auth, provider)
-      .then(result => {
-        const user = result.user
-
-        setUser(user)
-        saveUser(user)
-      })
-      .catch(error => {
-        console.error(error.message)
-      })
-  }
-
   return (
-    <MediumContext.Provider
-      value={{ user, handleUserAuth, allPosts, allUsers }}
-    >
+    <MediumContext.Provider value={{ allPosts, allUsers }}>
       {children}
     </MediumContext.Provider>
   )

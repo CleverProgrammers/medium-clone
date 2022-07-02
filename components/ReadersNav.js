@@ -6,8 +6,7 @@ import { FiBell } from 'react-icons/fi'
 import { BiBookmarks } from 'react-icons/bi'
 import { RiArticleLine } from 'react-icons/ri'
 import { BsPencilSquare } from 'react-icons/bs'
-
-import Author from '../static/author.jpg'
+import Qazi from '../static/qazi.jpg'
 
 const styles = {
   wrapper: `w-[5rem] h-screen flex flex-col justify-between items-center p-[1rem]`,
@@ -37,7 +36,7 @@ const ReadersNav = () => {
       <div className={styles.profileImageContainer}>
         <Image
           className={styles.profileImage}
-          src={Author}
+          src={Qazi}
           alt='profile image icons'
         />
       </div>

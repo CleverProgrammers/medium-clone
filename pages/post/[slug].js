@@ -32,7 +32,7 @@ const Post = () => {
   return (
     <>
       <Head>
-        <title>hello</title>
+        <title>Medium | Clever Programmer</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <main className={styles.content}>
